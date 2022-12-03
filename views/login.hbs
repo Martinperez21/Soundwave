@@ -1,0 +1,109 @@
+<div>
+  <nav class="navbar navbar-expand-lg navbar-dark cover-container d-flex w-100 p-3">
+    <div class="container-fluid mb-auto">
+      <a class="navbar-brand m-2" href="#">
+        <img src="./img/SoundWave_logo.png" alt="" width="40" height="37" class="d-inline-block" />
+        <a class="navbar-brand  fs-md-6 fs-sm-1 tittle-soundwave" href="#"> SoundWave </a>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse m-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-0 mt-1">
+          <li class="nav-item">
+            <a class="nav-link active mt" aria-current="page" href="/">Sonidos</a>
+          </li>
+          {{#if loggedIn}}
+          <li class="nav-item">
+            <a class="nav-link active " aria-current="page" href="/subir">Tu sonido</a>
+          </li>
+          {{/if}}
+          {{#unless loggedIn}}
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-current="page" href="/login">Login</a>
+          </li>
+          {{/unless}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid text-center text-white bk-login ">
+    <div class="row vh-100 align-items-center justify-content-center">
+      <div class="color-principal rounded p-5 col-sm-9 col-md-6 col-lg-4">
+        <img src="./img/SoundWave_logo_2.png" width="30%" height="auto" class="img-fluid mb-2">
+        <form action="/login" method="post">
+          <div class="mb-1">
+            <label for="Email" class="form-label lead">Nombre de usuario</label>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-8">
+                <input type="text" class="form-control rounded-3 ps-1 mb-3 text-center" name="username" id="username"
+                  aria-describedby="usernameHelp">
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 ">
+            <label for="Password" class="form-label lead">Contraseña</label>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">
+                <input type="password" class="form-control rounded-3 ps-1 text-center" name="password" id="password">
+              </div>
+              <div class="col-md-2"></div>
+            </div>
+          </div>
+
+          <div class="">
+            <button type="submit" class="btn btn-warning mb-3">
+              <a class="nav-link link-dark">Ingresar!</a>
+            </button>
+          </div>
+
+          <button type="button" class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Primera vez? Registrate acá!
+          </button>
+          <br>
+          <a href="/" class="link-light">volver</a>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Register -->
+  <div class="modal fade" id="exampleModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content p-3 mt-2 bg-dark text-white">
+        <div class="modal-header text-center justify-content-center  mb-3">
+          <h5 class="modal-title text-center lead fs-4" id="exampleModalLabel">Crea tus mezclas registrandote </h5>
+        </div>
+        <div class="model-body">
+
+        </div>
+        <form action="/register" method="POST">
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="validationDefault01" class="form-label"> <em>Nombre de Usuario</em> </label>
+              <input type="text" class="form-control" id="username" name="username" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" name="password" required/>
+            </div>
+          </div>
+
+          <div class="row g-3">
+            <button class="btn btn-warning" type="submit">Registrarse</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Scripts JS para Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+</div>

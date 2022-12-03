@@ -1,0 +1,159 @@
+<div>
+  <script>
+    function play_sound(id) {
+      let audio = new Audio(`./sounds/${id}.mp3`)
+      audio.play()
+    }
+  </script>
+  <nav class="navbar navbar-expand-lg navbar-dark cover-container d-flex w-100 p-3">
+    <div class="container-fluid mb-auto">
+      <a class="navbar-brand m-2" href="#">
+        <img src="./img/SoundWave_logo.png" alt="" width="40" height="37" class="d-inline-block" />
+        <a class="navbar-brand  fs-md-6 fs-sm-1 tittle-soundwave" href="#"> SoundWave </a>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse m-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-0 mt-1">
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-current="page" href="/">Sonidos</a>
+          </li>
+          {{#if loggedIn}}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/subir">Tu sonido</a>
+          </li>
+          {{/if}}
+          {{#unless loggedIn}}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/login">Login</a>
+          </li>
+          {{/unless}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section id="seccion-1">
+    <div class="container-fluid bk-sect-1" >
+      <div class="row vh-100 align-items-center justify-content-center text-center text-white">
+        <div class="container">
+          <h1 class="display-1">Soundwave</h1>
+          <h5 class="fs-5 fst-italic fw-light my-4">"Escucha los sonidos predeterminados para relajarte o crea tus propios
+            ambientes"</h5>
+          <a href="#seccion-2"><button class="btn btn-outline-warning">Comenzar</button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="seccion-2">
+    <div class="container-fluid text-center bk-sect-2 py-5 ">
+      <div class="row align-items-center justify-content-center ">
+        <h1 class="text-secundary fs-4">* Para crear tus propios sonidos necesitas loguearte *</h1>
+        <div class="card mb-3 bg-dark text-white m-3" style="max-width: 500px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="./img/SoundWave_logo_2.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 align-self-center">
+              <div class="card-body">
+                <button class="btn btn-warning mb-2" id="S1" onClick="play_sound(this.id)">PLAY 1</button>
+
+                <input type="range" class="form-range" id="customRange1">
+                <p class="card-text"><small class="text-muted">Sonido espacial 1</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-dark text-white m-3" style="max-width: 500px;">
+          <div class="row g-0">
+            <div class="col-md-4 pe-2">
+              <img src="./img/SoundWave_logo_2.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 align-self-center">
+              <div class="card-body">
+                <button class="btn btn-warning mb-2" id="S2" onClick="play_sound(this.id)">PLAY 2</button>
+
+                <input type="range" class="form-range" id="volumeslider">
+                <p class="card-text"><small class="text-muted">Sonido espacial 2</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-dark text-white m-3" style="max-width: 500px;">
+          <div class="row ">
+            <div class="col-md-4 ">
+              <img src="./img/SoundWave_logo_2.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 align-self-center">
+              <div class="card-body">
+                <button class="btn btn-warning mb-2" id="S4" onClick="play_sound(this.id)">PLAY 3</button>
+
+                <input type="range" class="form-range" id="customRange1">
+                <p class="card-text"><small class="text-muted">Sonido espacial 3</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-dark text-white m-3" style="max-width: 500px;">
+          <div class="row">
+            <div class="col-md-4">
+              <img src="./img/SoundWave_logo_2.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 align-self-center">
+              <div class="card-body">
+                <button class="btn btn-warning mb-2" id="S4" onClick="play_sound(this.id)">PLAY 4</button>
+
+                <input type="range" class="form-range" id="customRange1">
+                <p class="card-text"><small class="text-muted">Sonido espacial 4</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-dark text-white m-3" style="max-width: 500px;">
+          <div class="row">
+            <div class="col-md-4">
+              <img src="./img/SoundWave_logo_2.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 align-self-center">
+              <div class="card-body">
+                <button class="btn btn-secondary mb-2" id="AR1" onClick="play_sound(this.id)">PLAY AR 1</button>
+
+                <input type="range" class="form-range" id="customRange1">
+                <p class="card-text"><small class="text-muted">Sonido espacial 5</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <div class="footer">
+    <footer>
+      <div class="container pt-5 pb-5">
+        <nav class="row">
+          <ul class="nav justify-content-center border-bottom border-light p-4 mb-4 border-opacity-10 fs-5">
+            <li class="nav-item"><a href="#" class="nav-link link-light mx-4"> <i class="fa fa-camera-retro fa-lg">About
+                  Us</i> </a></li>
+            <li class="nav-item"><a href="#" class="nav-link link-light mx-4">
+                <i class=" fa-instagram"> Instagram</i></a></li>
+            <li class="nav-item">
+              <a href="#" class="nav-link link-light mx-4">
+                <i class=" fa-twitter" aria-hidden="true"> Twitter</i>
+              </a>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link link-light mx-4"><i class="fa-comments" aria-hidden="true">
+                  FAQs</i>
+              </a>
+            </li>
+          </ul>
+          <p class="text-center mt-4 mb-5 fs-5">© 2022 SoundWave Team</p>
+        </nav>
+      </div>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+    </div>

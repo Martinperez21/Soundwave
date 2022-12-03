@@ -1,0 +1,127 @@
+<div class="bk-subir">
+  <nav class="navbar navbar-expand-lg navbar-dark cover-container d-flex w-100 p-3">
+    <div class="container-fluid mb-auto">
+      <a class="navbar-brand m-2" href="#">
+        <img src="./img/SoundWave_logo.png" alt="" width="40" height="37" class="d-inline-block" />
+        <a class="navbar-brand  fs-md-6 fs-sm-1 tittle-soundwave" href="#"> SoundWave </a>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse m-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-0 mt-1">
+          <li class="nav-item">
+            <a class="nav-link active mt" aria-current="page" href="/">Sonidos</a>
+          </li>
+          {{#if loggedIn}}
+          <li class="nav-item">
+            <a class="nav-link disabled " aria-current="page" href="/subir">Tu sonido</a>
+          </li>
+{{/if}}
+{{#unless loggedIn}}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/login">Login</a>
+          </li>
+{{/unless}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- SUBIDA DE ARCHIVOS  -->
+  <div class="d-flex container-fluid my-5 text-white text-center justify-content-center ">
+    <div class="input-group justify-content-center color-principal p-4 rounded " style="width: 500px;">
+      <form id="formulario">
+        <label class="mb-4 fs-5" for=""> Archivo de audio (solo MP3)</label>
+        <input type="file" class="form-control mb-4" id="sound-input">
+        <button class="btn btn-warning">Enviar</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    document.querySelector("#formulario").addEventListener("submit", async (ev) => {
+      ev.preventDefault()
+      const file = document.querySelector("#sound-input").files[0]
+      const formData = new FormData()
+      formData.append("file", file)
+
+      axios.post("/audio", formData, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+    })
+  </script>
+  <div class="structure ">
+    <div class="container-fluid text-center">
+      <div id="card-container" class="row 0 align-items-center justify-content-center">
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <footer>
+      <div class="container pt-5 pb-5">
+        <nav class="row">
+          <ul class="nav justify-content-center border-bottom border-light p-4 mb-4 border-opacity-10 fs-5">
+            <li class="nav-item"><a href="#" class="nav-link link-light mx-4"> <i class="fa fa-camera-retro fa-lg">About
+                  Us</i> </a></li>
+            <li class="nav-item"><a href="#" class="nav-link link-light mx-4">
+                <i class=" fa-instagram"> Instagram</i></a></li>
+            <li class="nav-item">
+              <a href="#" class="nav-link link-light mx-4">
+                <i class=" fa-twitter" aria-hidden="true"> Twitter</i>
+              </a>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link link-light mx-4"><i class="fa-comments" aria-hidden="true">
+                  FAQs</i>
+              </a>
+            </li>
+          </ul>
+          <p class="text-center mt-4 mb-5 fs-5">© 2022 SoundWave Team</p>
+        </nav>
+      </div>
+    </footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+  <script>
+    var audio
+    function play_sound(filename) {
+      audio = new Audio(`http://localhost:4000/audio/${filename}`);
+      audio.play();
+    }
+
+    (async () => {
+      const userAudios = await axios.get("http://localhost:4000/audios", {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      })
+
+      const container = document.querySelector("#card-container");
+
+      userAudios.data.forEach((audio, idx) => {
+        container.innerHTML += `
+          <div class="card mb-3 bg-dark text-white m-3" style="max-width: 500px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="./img/SoundWave_logo_2.png" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8 align-self-center" >
+                <div class="card-body">
+                  <button class="btn btn-warning mb-2" id="S1" onClick="play_sound('${audio.filename}')">${audio.name.split("-")[0]}</button>
+
+                  <input type="range" class="form-range" id="customRange1">
+                  <p class="card-text"><small class="text-muted">Sonido espacial 1</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+      `
+      })
+    })()
+  </script>
+</div>

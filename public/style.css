@@ -15,17 +15,17 @@ nav,footer,
   background-color: #0b0b0b;
 }
 .bk-sect-1{
-  background-image: url("../public/img/bk-sect-1.svg");
+  background-image: url("./img/bk-sect-1.svg");
 }
 .bk-sect-2{
-  background-image: url("../public/img/bk-sect-2.svg");
+  background-image: url("./img/bk-sect-2.svg");
 }
 .bk-subir{
-  background-image: url("../public/img/subir.svg");
+  background-image: url("./img/subir.svg");
 }
 
 .bk-login{
-  background-image: url("../public/img/login.svg");
+  background-image: url("./img/login.svg");
 }
 
 

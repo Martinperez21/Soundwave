@@ -1,82 +1,102 @@
-const { PrismaClient } = require('@prisma/client')
-const express = require("express")
-const cors = require("cors")
-const multer = require("multer");
+const passport = require("passport");
+const deserializeUser = require("./passport/deserializeUser.js");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const LocalStrategy = require("passport-local");
+const express = require("express");
+const cors = require("cors");
+const AuthController = require("./controller/AuthController.js");
+const AudioController = require("./controller/AudioController.js");
+const checkAuthentication = require("./passport/authMiddleware.js");
+const checkUnauthentication = require("./passport/unauthMiddleware.js");
 const path = require("path");
-const fs = require("fs")
-const Handlebars = require("handlebars");
+const exphbs = require("express-handlebars");
+const _handlebars = require("handlebars");
+const {
+  allowInsecurePrototypeAccess,
+} = require("@handlebars/allow-prototype-access");
 
-const prisma = new PrismaClient()
+const app = express();
 
-const app = express()
+app.engine(
+  "hbs",
+  exphbs.engine({
+    defaultLayout: "main",
+    layoutDir: path.join(__dirname, "/views/layouts"),
+    handlebars: allowInsecurePrototypeAccess(_handlebars),
+  })
+);
 
-app.use(cors({
-    origin: "*"
-}))
+app.set("view engine", "hbs");
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
+app.use(express.static(path.join(__dirname, "/public/")));
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/upload-file", (req, res) => {
-    const storage = multer.diskStorage({
-        destination: "./uploads",
-        filename: async (req, file, cb) => {
-            let [filename, ext] = file.originalname.split(".")
-            filename += `-${res.locals.userId}`
+app.use(cookieParser("secret"));
 
-            const _file = await prisma.sonido.create({
-                data: {
-                    file: `/uploads/${filename}.${ext}`,
-                    userId: 1,
-                    name: filename,
-                }
-            })
-    
-            cb(null, `${filename}.${ext}`)
-        }
-    })
-    const upload = multer({ storage }).any();
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
-    upload(req, res, (err) => console.log(err))
-    // OBTENER USUARIO
+app.use(passport.initialize());
 
-    // SI NO HAY USUARIO -> MANDARLO A LA MIERDA
+app.use(passport.session());
 
-})
+passport.use(new LocalStrategy(AuthController.login));
 
-app.get("/audio/:filename", (req, res) => {
-    const { filename } = req.params
-    const file = path.join(__dirname, `/uploads/${filename}`)
+passport.serializeUser((user, done) => done(null, user.id));
 
-    if(!fs.existsSync(file)) res.send({ message: "File not found"})
+passport.deserializeUser(deserializeUser);
 
-    res.sendFile(file)
-})
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    successRedirect: "/",
+  })
+);
 
-app.get("/audios", async (req,res) => {
-    const userAudios = await prisma.sonido.findMany({
-        where: {
-            userId: 1
-        }
-    })
+app.post("/register", AuthController.register);
 
-    const audios = []
+app.get("/audio/:filename", checkAuthentication, AudioController.getAudioFile);
 
-    userAudios.forEach(audio => {
-        const file = path.join(__dirname, audio.file)
-        if(!fs.existsSync(file)) return;
-        
-        audios.push(
-            {
-                filename: audio.file.split("/")[2],
-                name: audio.name
+app.get("/audios", checkAuthentication, AudioController.getUserAudios);
 
-            });
-    })
+app.post("/audio", checkAuthentication, AudioController.upload);
 
-    res.send(audios)
-})
+app.get("/", (req, res) => {
+  res.render("index", {
+    loggedIn: req.isAuthenticated(),
+  });
+});
+
+app.get("/login", checkUnauthentication, (req, res) => {
+  res.render("login", {
+    loggedIn: req.isAuthenticated(),
+  });
+});
+
+app.get("/subir", checkAuthentication, (req, res) => {
+  res.render("subir", {
+    loggedIn: req.isAuthenticated(),
+  });
+});
+
+app.get("*", (req, res) => res.redirect("/"));
 
 app.listen(4000, () => {
-    console.log("Listening...")
-})
-
+  console.log("Listening...");
+});

@@ -12,7 +12,7 @@ datasource db {
 
 model Usuario {
   id Int @id @default(autoincrement())
-  email String
+  username String
   password String
 
   sound Sonido[]
